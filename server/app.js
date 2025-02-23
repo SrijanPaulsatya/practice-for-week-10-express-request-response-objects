@@ -1,5 +1,6 @@
 // DO NOT EDIT - Initialize Express, handle JSON requests
 const express = require('express');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
@@ -125,6 +126,27 @@ app.get("/info/", (req, res) => {
  *      Test route: /logo.png
  */
 // Your code here
+
+app.post('/movies', (req, res) => {
+    const { name, year, favorite } = req.body;
+    const randomId = Math.floor(Math.random() * 100000);
+    const responseObj = {
+        "id": randomId,
+        "name": name,
+        "year": year
+    };
+
+    if (favorite) {
+        responseObj["isFavorite"] = true;
+    }
+
+    res.json(responseObj);
+});
+
+app.get('/logo.png', (req, res) => {
+    const filePath = path.join(__dirname, 'public', 'logo.png');
+    res.sendFile(filePath);
+});
 
 // DO NOT EDIT - Set port and listener
 if (require.main === module) {
